@@ -1,42 +1,44 @@
 body {
   margin: 0;
+  background: #000;
   font-family: 'Segoe UI', sans-serif;
-  background: #111;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 100vh;
 }
 
 .card-container {
-  background: linear-gradient(to bottom right, #f9d976, #f39f86);
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  background: #222;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
 }
 
 .scratch-card {
   position: relative;
-  width: 350px;
-  height: 180px;
-  border-radius: 16px;
+  width: 300px;
+  height: 150px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+  box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+  background: linear-gradient(135deg, #fdf5c2, #ffd700);
 }
 
 .coupon-text {
   position: absolute;
   z-index: 1;
-  color: #111;
-  font-size: 16px;
-  font-weight: bold;
+  color: #000;
+  font-size: 14px;
+  font-weight: 600;
   text-align: center;
-  top: 40%;
+  top: 50%;
   left: 50%;
-  width: 80%;
+  width: 85%;
   transform: translate(-50%, -50%);
-  line-height: 1.4em;
+  line-height: 1.3em;
   white-space: pre-wrap;
+  pointer-events: none;
 }
 
 canvas {
@@ -44,27 +46,33 @@ canvas {
   top: 0;
   left: 0;
   cursor: grab;
+  z-index: 2;
 }
 
 .copy-button {
   position: absolute;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 8px 20px;
-  font-size: 14px;
-  font-weight: bold;
+  bottom: 8px;
+  right: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
   color: #fff;
-  background: linear-gradient(135deg, #ffcc00, #d4af37);
-  border: none;
+  background: rgba(255, 215, 0, 0.3);
+  border: 1px solid rgba(255, 215, 0, 0.7);
   border-radius: 6px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   transition: all 0.3s ease;
-  z-index: 2;
+  z-index: 3;
 }
 
 .copy-button:hover {
-  transform: translateX(-50%) scale(1.05);
-  background: linear-gradient(135deg, #d4af37, #ffcc00);
+  background: rgba(255, 215, 0, 0.5);
+  transform: scale(1.05);
+}
+
+.copy-button.copied {
+  background: #28a745;
+  border-color: #28a745;
+  color: #fff;
 }
