@@ -3,23 +3,22 @@ const ctx = canvas.getContext("2d");
 const couponText = document.getElementById("couponText");
 const copyBtn = document.getElementById("copyBtn");
 
-// Load golden mask
 const img = new Image();
 img.src = "gold-mask.png";
 
-// Prizes
+// Weighted prize list
 const prizes = [
-  { text: "🎉 Congratulations! You get 5% Off on orders above Rs 399\nCoupon Code - SPSCRATCH5", weight: 40 },
-  { text: "😢 Better luck next time.\nBut our Perfumes never disappoint!", weight: 40 },
-  { text: "🔥 Woah! 10% Off on orders above Rs 399\nCoupon Code - SPSCRATCH10", weight: 10 },
-  { text: "🎁 Free 15ml Tester worth Rs 499!\nCoupon Code - SPTEST15", weight: 10 },
-  { text: "💻 Hacker or What! Flat Rs 100 Off\nCoupon Code - SPSCRATCH100", weight: 5 },
+  { text: "🎉 You get 5% Off on orders above ₹399\nCoupon Code - SPSCRATCH5", weight: 40 },
+  { text: "😢 Better luck next time.\nBut our perfumes never fail!", weight: 40 },
+  { text: "🔥 10% Off on orders above ₹399\nCoupon Code - SPSCRATCH10", weight: 10 },
+  { text: "🎁 Free 15ml Tester worth ₹499\nCoupon Code - SPTEST15", weight: 10 },
+  { text: "💻 Hacker or What!\n₹100 Off on orders above ₹399\nCoupon Code - SPSCRATCH100", weight: 5 }
 ];
 
 function getRandomPrize() {
-  const total = prizes.reduce((sum, p) => sum + p.weight, 0);
-  let rand = Math.random() * total;
-  for (let prize of prizes) {
+  const totalWeight = prizes.reduce((sum, p) => sum + p.weight, 0);
+  let rand = Math.random() * totalWeight;
+  for (const prize of prizes) {
     if (rand < prize.weight) return prize.text;
     rand -= prize.weight;
   }
@@ -27,27 +26,25 @@ function getRandomPrize() {
 }
 
 function alreadyScratchedToday() {
-  const storedDate = localStorage.getItem("lastScratchDate");
-  const today = new Date().toDateString();
-  return storedDate === today;
+  return localStorage.getItem("lastScratchDate") === new Date().toDateString();
 }
 
 function autoReveal() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   canvas.style.pointerEvents = "none";
-  canvas.style.opacity = "0.5";
+  canvas.style.opacity = 0.5;
 }
 
 img.onload = () => {
-  canvas.width = img.width;
-  canvas.height = img.height;
+  canvas.width = 300;
+  canvas.height = 150;
   const totalPixels = canvas.width * canvas.height;
 
   if (alreadyScratchedToday()) {
     couponText.innerText = localStorage.getItem("lastPrize") || "Already scratched today!";
     autoReveal();
   } else {
-    ctx.drawImage(img, 0, 0);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     const prize = getRandomPrize();
     couponText.innerText = prize;
     localStorage.setItem("lastPrize", prize);
@@ -69,12 +66,11 @@ img.onload = () => {
 
     ctx.globalCompositeOperation = "destination-out";
     ctx.beginPath();
-    ctx.arc(x, y, 25, 0, Math.PI * 2);
+    ctx.arc(x, y, 20, 0, Math.PI * 2);
     ctx.fill();
 
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     scratchedPixels = 0;
-
     for (let i = 3; i < imageData.data.length; i += 4) {
       if (imageData.data[i] === 0) scratchedPixels++;
     }
@@ -86,7 +82,7 @@ img.onload = () => {
   });
 };
 
-// Copy Code logic
+// Copy Code functionality
 copyBtn.addEventListener("click", () => {
   const text = localStorage.getItem("lastPrize") || couponText.innerText;
   const match = text.match(/SPSCRATCH\d+|SPTEST\d+|SPSCRATCH100/);
@@ -94,10 +90,14 @@ copyBtn.addEventListener("click", () => {
   if (match) {
     navigator.clipboard.writeText(match[0])
       .then(() => {
-        copyBtn.innerText = "Copied!";
-        setTimeout(() => copyBtn.innerText = "Copy Code", 2000);
+        copyBtn.innerText = "✅ Copied!";
+        copyBtn.classList.add("copied");
+        setTimeout(() => {
+          copyBtn.innerText = "📋 Copy Code";
+          copyBtn.classList.remove("copied");
+        }, 2000);
       })
-      .catch(() => alert("Failed to copy"));
+      .catch(() => alert("Copy failed"));
   } else {
     alert("No coupon code found.");
   }
