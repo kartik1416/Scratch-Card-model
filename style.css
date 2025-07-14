@@ -1,41 +1,70 @@
 body {
-  background: #1a1a1a;
-  font-family: 'Arial', sans-serif;
-  text-align: center;
-  color: white;
-  margin: 50px;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.card-container {
+  background: linear-gradient(to bottom right, #f9d976, #f39f86);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 .scratch-card {
   position: relative;
   width: 350px;
-  height: 200px;
-  margin: 0 auto;
-  border-radius: 15px;
+  height: 180px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 0 15px gold;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+}
+
+.coupon-text {
+  position: absolute;
+  z-index: 1;
+  color: #111;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  top: 40%;
+  left: 50%;
+  width: 80%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4em;
+  white-space: pre-wrap;
 }
 
 canvas {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 2;
-  border-radius: 15px;
+  cursor: grab;
 }
 
-.reward {
-  z-index: 1;
+.copy-button {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to right, #ffe680, #ffd700);
-  color: #000;
-  font-size: 20px;
-  padding: 20px;
-  box-sizing: border-box;
-  text-align: center;
-  line-height: 160px;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 20px;
+  font-size: 14px;
   font-weight: bold;
-  border-radius: 15px;
+  color: #fff;
+  background: linear-gradient(135deg, #ffcc00, #d4af37);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.copy-button:hover {
+  transform: translateX(-50%) scale(1.05);
+  background: linear-gradient(135deg, #d4af37, #ffcc00);
 }
